@@ -4,16 +4,20 @@ import java.awt.event.*;
 import java.util.*;
 
 public class screens extends JFrame{
+	
 	private static final long serialVersionUID = 1L;
 	CardLayout cardLayout;
 	JPanel cardPanel;
-	JPanel examListScreen;
+	HashMap<String, JPanel> classPages = new HashMap<>();
+	JPanel examListScreen = new JPanel();;
 	int classNumberFinal;
 	ArrayList<JTextField> classFields = new ArrayList<>();
 	ArrayList<String> classes = new ArrayList<>();
+	
+	
 	public screens() {
 		setTitle("AP Exam Guide");
-		setSize(1000, 1000);
+		setSize(1200, 1000);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		cardLayout = new CardLayout();
 		cardPanel = new JPanel(cardLayout);
@@ -22,28 +26,30 @@ public class screens extends JFrame{
 		
 		JPanel firstScreen = new JPanel();
 		firstScreen.setLayout(null);
+		firstScreen.setBackground(new Color(128, 205, 250));
 		
 		JLabel welcomeLabel = new JLabel ("AP Exam Guide");
-		welcomeLabel.setBounds(100,30, 200, 30);
-		welcomeLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
+		welcomeLabel.setBounds(80,30, 500, 50);
+		welcomeLabel.setFont(new Font("Monospaced", Font.BOLD, 36));
 		firstScreen.add(welcomeLabel);
 		
-		JLabel classnumber = new JLabel ("How many AP Classes are you taking");
-		classnumber.setBounds(80,80, 200, 30);
-		classnumber.setFont(new Font("SansSerif", Font.PLAIN, 24));
+		JLabel classnumber = new JLabel ("How many AP Classes are you taking?");
+		classnumber.setBounds(80,120, 500, 50);
+		classnumber.setFont(new Font("Monospaced", Font.PLAIN, 20));
 		firstScreen.add(classnumber);
 		
 		JButton nextButton = new JButton("Next");
-		nextButton.setBounds(100,140,100,30);
+		nextButton.setBounds(80,190,100,30);
 		firstScreen.add(nextButton);
+		animation.animateButton(nextButton);
 		
 		JTextField classesNumber = new JTextField(" ");
-		classesNumber.setBounds(310,80, 200, 30);
+		classesNumber.setBounds(520,130, 200, 30);
 		classesNumber.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		firstScreen.add(classesNumber);
 		
-		JPanel examListScreen = new JPanel();
 		examListScreen.setLayout(null);
+		examListScreen.setBackground(new Color(128, 205, 250));
 		
 		nextButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -57,12 +63,12 @@ public class screens extends JFrame{
 			for( int i = 0; i< classNumberFinal; i++) {
 				
 				JLabel classNumber = new JLabel("What AP Class are you taking?");
-				classNumber.setBounds(80,230 + i*20, 400, 30);
+				classNumber.setBounds(80,250 + i*40, 400, 30);
 				classNumber.setFont(new Font("SansSerif", Font.PLAIN, 18));
 				firstScreen.add(classNumber);
 				
 				JTextField classNumberText = new JTextField();
-				classNumberText.setBounds(340,230+i*20, 400, 30);
+				classNumberText.setBounds(340,250+i*40, 400, 30);
 				classNumberText.setFont(new Font("SansSerif", Font.PLAIN, 18));
 				firstScreen.add(classNumberText);
 				classFields.add(classNumberText);
@@ -70,31 +76,108 @@ public class screens extends JFrame{
 			JButton nextSecondButton = new JButton("Next");
 			nextSecondButton.setBounds(100,500,100,30);
 			firstScreen.add(nextSecondButton);
+			animation.animateButton(nextSecondButton);
 			
 			nextSecondButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e ) {
+
 					classes.clear();
 					examListScreen.removeAll();
+					boolean allValid = true;
+					
+					for (int i = 0; i < classFields.size(); i++) {
+						String className = classFields.get(i).getText().trim().toLowerCase();
+					    APExam exam = APDatatbase.examMap.get(className);
+					    
+					    if (className.isEmpty() || exam == null || exam.name.equals(className)) {
+					        allValid = false;
+					        break;
+					    }
+					}
+
+					if (!allValid) {
+					    JOptionPane.showMessageDialog(null, "One or more classes are invalid. Please check your spelling.");
+					    return; 
+					}
+					
+					
+					
 					JLabel header = new JLabel("your AP Classes:");
+					header.setBounds(80, 30, 300, 40);
 					examListScreen.add(header);
 					
-					
 					for( int i = 0; i< classFields.size(); i++) {
-						String className = classFields.get(i).getText().trim();
-						if(!className.isEmpty()) {
+							String className = classFields.get(i).getText().trim().toLowerCase();
 							classes.add(className);
-							
-							JButton classLabel = new JButton(className);
-							classLabel.setBounds(500,100 + i*40, 200, 30);
+							String actualName = APDatatbase.examMap.get(className).getName();
+							JButton classLabel = new JButton(actualName);
+							classLabel.setBounds(300,200 + i*70, 500, 70);
 							classLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
+							classLabel.setOpaque(true);
+							classLabel.setForeground(Color.WHITE);
+							classLabel.setBackground(Color.BLACK);
+							classLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+							animation.animateButton(classLabel);
 							examListScreen.add(classLabel);
+							
+							classPages.put(className, new JPanel());
+                            classPages.get(className).setLayout(null);
+                            classPages.get(className).setBackground(new Color(131, 179, 125));
+                    		
+                            
+                            JLabel classDetailsLabel = new JLabel(actualName);
+                            classDetailsLabel.setBounds(80,40, 500, 50);
+                            classDetailsLabel.setFont(new Font("Monospaced", Font.BOLD, 30));
+                            classPages.get(className).add(classDetailsLabel);
+                            
+                            
+                            JLabel dateOfActualClass = new JLabel(APExamInfo.InfoforDate(className));
+                            dateOfActualClass.setBounds(80,100, 500, 50);
+                            dateOfActualClass.setFont(new Font("Monospaced", Font.PLAIN, 20));
+                            classPages.get(className).add(dateOfActualClass);
+                            
+                            JLabel difficulyOfActualClass = new JLabel(APExamInfo.InfoforDifficulty(className));
+                            difficulyOfActualClass.setBounds(80,130, 500, 50);
+                            difficulyOfActualClass.setFont(new Font("Monospaced", Font.PLAIN, 20));
+                            classPages.get(className).add(difficulyOfActualClass);
+                            
+                            JLabel daysLeftOfActualClass = new JLabel(calendar.untilDate(className));
+                            daysLeftOfActualClass.setBounds(80,160, 500, 50);
+                            daysLeftOfActualClass.setFont(new Font("Monospaced", Font.PLAIN, 20));
+                            classPages.get(className).add(daysLeftOfActualClass);
+                            
+                            JTextArea topicsArea = new JTextArea(APExamInfo.InfoforTopics(className));
+                            topicsArea.setBackground(new Color(131, 179, 125));
+                            topicsArea.setBounds(80, 200, 1000, 400);
+                            topicsArea.setFont(new Font("Monospaced", Font.PLAIN, 18));
+                            topicsArea.setLineWrap(true);
+                            topicsArea.setWrapStyleWord(true);
+                            topicsArea.setEditable(false);
+                            classPages.get(className).add(topicsArea);
+                
+                            
+                            cardPanel.add(classPages.get(className), className);
+                            
+							classLabel.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e ) {
+									cardLayout.show(cardPanel,className);
+									cardPanel.revalidate();
+									cardPanel.repaint();
+									
+								}
+							
+								
+								
+							});
+							
 						}
 						
-				}
+				
 					
-			cardLayout.show(cardPanel, "secondScreen");
+			
 			examListScreen.revalidate();
 			examListScreen.repaint();
+			cardLayout.show(cardPanel, "secondScreen");
 				}
 			});
 				
@@ -117,6 +200,7 @@ public class screens extends JFrame{
 		cardPanel.add(examListScreen, "secondScreen");
 		add(cardPanel);
 		setVisible(true);
-		
+		}
 	}
-}
+
+
