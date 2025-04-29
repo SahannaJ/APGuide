@@ -33,5 +33,43 @@ public class APExamInfo extends APExam {
 		finalInfo = infoAboutTopics.toString();
 		return finalInfo;
 	}
+	public static String CalendarMaking(String nameOfClass) {
+		List<String> modifiableTopics = new ArrayList<>(APDatatbase.examMap.get(nameOfClass).getTopics());
+		List<Integer> modifiablePercentages = new ArrayList<>(APDatatbase.examMap.get(nameOfClass).getPercentage());
+		for (int i = 0; i < APDatatbase.examMap.get(nameOfClass).getTopics().size()- 1; i++) {
+            for (int j = 0; j < APDatatbase.examMap.get(nameOfClass).getTopics().size() - 1; j++) {
+                if (modifiablePercentages.get(j) < modifiablePercentages.get(j+1)) { 
+                	int temp = modifiablePercentages.get(j);
+                    String temp1 = modifiableTopics.get(j);
+                    modifiablePercentages.set(j, modifiablePercentages.get(j+1));
+                    modifiableTopics.set(j, modifiableTopics.get(j+1));
+
+                    modifiablePercentages.set(j+1, temp);
+                    modifiableTopics.set(j+1, temp1);
+                }
+            }
+        }
+		Queue<String> UnitsInOrder = new LinkedList<>(modifiableTopics);
+		StringBuilder makingTheCalendar = new StringBuilder();
+		String finalcalendar;
+		long countdown = calendar.daysLeftnumber(nameOfClass);
+		 int unitCount = UnitsInOrder.size();
+		 for (int day = 0; day < Math.min(countdown, modifiableTopics.size()); day++) {
+			    String currentUnit;
+
+			    if (!UnitsInOrder.isEmpty()) {
+			        currentUnit = UnitsInOrder.poll();
+			        if (APDatatbase.examMap.get(nameOfClass).getPercentage().get(day) > 70) {
+			            UnitsInOrder.add(currentUnit);
+			        }
+			    } else {
+			        currentUnit = "Free Review Day";
+			    }
+
+			    makingTheCalendar.append("Day " + (day + 1) + ": Review " + currentUnit + "\n");
+			}
+		finalcalendar = makingTheCalendar.toString();
+		return finalcalendar;
+	}
 		
 }

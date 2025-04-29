@@ -9,12 +9,12 @@ public class animation {
 		name.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                name.setBounds(name.getX(), name.getY() - 5, name.getWidth(), name.getHeight());
+                name.setBounds(name.getX(), name.getY() - 2, name.getWidth(), name.getHeight());
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-            	name.setBounds(name.getX(), name.getY() + 5, name.getWidth(), name.getHeight());
+            	name.setBounds(name.getX(), name.getY() + 2, name.getWidth(), name.getHeight());
             }
         });
 	}

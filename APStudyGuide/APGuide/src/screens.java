@@ -9,11 +9,34 @@ public class screens extends JFrame{
 	CardLayout cardLayout;
 	JPanel cardPanel;
 	HashMap<String, JPanel> classPages = new HashMap<>();
+	HashMap<String, JPanel> classSchedulePages = new HashMap<>();
 	JPanel examListScreen = new JPanel();;
 	int classNumberFinal;
 	ArrayList<JTextField> classFields = new ArrayList<>();
 	ArrayList<String> classes = new ArrayList<>();
 	
+	public void createSchedulePage(String className) {
+	    if (!classSchedulePages.containsKey(className)) {
+	        JPanel schedulePage = new JPanel();
+	        schedulePage.setLayout(null);
+	        schedulePage.setBackground(new Color(131, 179, 125));
+
+	        JLabel header = new JLabel("Study Schedule for " + APDatatbase.examMap.get(className).getName());
+	        header.setFont(new Font("SansSerif", Font.BOLD, 27));
+	        header.setBounds(80, 40, 500, 40);
+	        schedulePage.add(header);
+	        
+	        JTextArea makingCalendars = new JTextArea(APExamInfo.CalendarMaking(className));
+	        makingCalendars.setFont(new Font("SansSerif", Font.PLAIN, 16));
+	        makingCalendars.setBounds(100, 100, 700, 700);
+	        makingCalendars.setBackground(new Color(131, 179, 125));
+	        schedulePage.add(makingCalendars);
+	        
+	        
+	        classSchedulePages.put(className, schedulePage);
+	        cardPanel.add(schedulePage, className + "_schedule");
+	    }
+	}
 	
 	public screens() {
 		setTitle("AP Exam Guide");
@@ -102,8 +125,9 @@ public class screens extends JFrame{
 					
 					
 					
-					JLabel header = new JLabel("your AP Classes:");
-					header.setBounds(80, 30, 300, 40);
+					JLabel header = new JLabel("Your AP Classes:");
+					header.setFont(new Font("SansSerif", Font.BOLD, 36));
+					header.setBounds(80, 30, 400, 40);
 					examListScreen.add(header);
 					
 					for( int i = 0; i< classFields.size(); i++) {
@@ -111,7 +135,7 @@ public class screens extends JFrame{
 							classes.add(className);
 							String actualName = APDatatbase.examMap.get(className).getName();
 							JButton classLabel = new JButton(actualName);
-							classLabel.setBounds(300,200 + i*70, 500, 70);
+							classLabel.setBounds(300,200 + i*90, 500, 70);
 							classLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
 							classLabel.setOpaque(true);
 							classLabel.setForeground(Color.WHITE);
@@ -149,12 +173,35 @@ public class screens extends JFrame{
                             JTextArea topicsArea = new JTextArea(APExamInfo.InfoforTopics(className));
                             topicsArea.setBackground(new Color(131, 179, 125));
                             topicsArea.setBounds(80, 200, 1000, 400);
-                            topicsArea.setFont(new Font("Monospaced", Font.PLAIN, 18));
+                            topicsArea.setFont(new Font("Monospaced", Font.PLAIN, 16));
                             topicsArea.setLineWrap(true);
                             topicsArea.setWrapStyleWord(true);
                             topicsArea.setEditable(false);
                             classPages.get(className).add(topicsArea);
-                
+                            
+                            JButton backToHome = new JButton("Back to Home");
+                            backToHome.setBounds(80,600,100,50);
+                            classPages.get(className).add(backToHome);
+                            
+                            JButton buildYourCalendar = new JButton("Build Your Calendar");
+                            buildYourCalendar.setBounds(200,600,300,50);
+                            classPages.get(className).add(buildYourCalendar);
+                            buildYourCalendar.addActionListener(new ActionListener() {
+                                public void actionPerformed(ActionEvent e) {
+                                    createSchedulePage(className);
+                                    cardLayout.show(cardPanel, className + "_schedule");
+                                    cardPanel.revalidate();
+                                    cardPanel.repaint();
+                                }
+                            });
+                            backToHome.addActionListener(new ActionListener() {
+                				public void actionPerformed(ActionEvent e ) {
+                					cardLayout.show(cardPanel, "secondScreen");
+									examListScreen.revalidate();
+									examListScreen.repaint();
+                				}
+                				});
+                            
                             
                             cardPanel.add(classPages.get(className), className);
                             
@@ -199,6 +246,7 @@ public class screens extends JFrame{
 		cardPanel.add(firstScreen, "home");
 		cardPanel.add(examListScreen, "secondScreen");
 		add(cardPanel);
+		
 		setVisible(true);
 		}
 	}

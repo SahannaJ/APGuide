@@ -68,5 +68,18 @@ public class APDatatbase{
 						"Differential Equation", "Application of Integration", "Parametric Equations, Polar Coordinates, and Vection-Valued Functions", "Infinite Sequences and Series"), 
 				List.of(6,6,6,8,10,19,8,8,12,18)
 				));
+		examMap.put("ap statistics", new APExamInfo(
+				"AP Statistics", LocalDate.of(2025, 5, 8), "Moderate", List.of("Exploring One-Variable Data", "Exploring Two Variable Data", "Collecting Data", "Probability, Random Variables, and Probability Distributions", "Inference for Categorical Data: Proportions", "Inference for Quantitative Data: Means", "Inference for Categorical Data: Chi-Square", "Inference for Quantitative Data: Slopes"), 
+				List.of(23,7,12,10,8,12,18,5,5)
+				));
+		examMap.put("ap literature", new APExamInfo(
+				"AP Literature", LocalDate.of(2025, 5, 7), "Moderate", List.of("Multiple Choice 55 Questions", "Free Response 3 Questions"), 
+				List.of(45,55)
+				));
+		examMap.put("ap language", new APExamInfo(
+				"AP English Language", LocalDate.of(2025, 5, 14), "Moderate", List.of("23–25 Reading questions & 20–22 Writing questions", "Synthesis & Rhetorical analysis & Argument"), 
+				List.of(45,55)
+				));
+
 }
 }
