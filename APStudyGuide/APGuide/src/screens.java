@@ -1,3 +1,6 @@
+/*
+ * This class makes all the screens that are shown.
+ */
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -14,7 +17,7 @@ public class screens extends JFrame{
 	int classNumberFinal;
 	ArrayList<JTextField> classFields = new ArrayList<>();
 	ArrayList<String> classes = new ArrayList<>();
-	
+	//This method is for the schedules pages so that each class has a schedule
 	public void createSchedulePage(String className) {
 	    if (!classSchedulePages.containsKey(className)) {
 	        JPanel schedulePage = new JPanel();
@@ -37,7 +40,7 @@ public class screens extends JFrame{
 	        cardPanel.add(schedulePage, className + "_schedule");
 	    }
 	}
-	
+	//This method has all screens that come up.
 	public screens() {
 		setTitle("AP Exam Guide");
 		setSize(1200, 1000);

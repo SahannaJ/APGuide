@@ -1,84 +1,67 @@
+/*
+ * This class has all the information for each AP Class.
+ */
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.time.LocalDate;
 import java.util.*;
 public class APDatatbase{
+	static {
+	    new arrays(); 
+	}
+	//This has a HashMap which contains all the information like the name, date, difficulty, topics, percentage
+	
 	public static Map<String, APExam> examMap = new HashMap<>();
 	static {
 		examMap.put("ap biology", new APExamInfo(
-			"AP Biology", LocalDate.of(2025, 5, 5), "Difficult", List.of("Chemsitry of Life", "Cell Structure and Function","Cellular Energetics", "Cell Cimmunication and Cell Cycle", "Heredity","Gene Expression and Regulation", "Natural Selection", "Ecology"), List.of(10,11,14,13,10,14,17,13)
+			"AP Biology", LocalDate.of(2025, 5, 5), "Difficult", arrays.apBiostr, arrays.apBioInt
 			));
 		examMap.put("ap chemistry", new APExamInfo(
-				"AP Chemistry", LocalDate.of(2025, 5, 6), "Difficult", List.of("Atomic Structure and Properties", 
-						"Compound Structure and Properties","Properties of Substances and Mixtures", 
-						"Chemical Reactions", "Kinetics","Thermochemistry", "Equilibrium", "Acids and Bases", "Thermodynamics and Electrochemistry"), 
-				List.of(8,8,20,8,8,8,8,13,8)
+				"AP Chemistry", LocalDate.of(2025, 5, 6), "Difficult",  arrays.apChemstr, 
+				arrays.apChemInt
 				));
 		examMap.put("ap enviornmental science", new APExamInfo(
-				"AP Enviornmental Science", LocalDate.of(2025, 5, 13), "Moderate", List.of("The Living World: Ecosystems", 
-						"The Living World: Biodiversity","Populations", 
-						"Earth Systems and Resources", "Land and Water Use","Energy Resources and Consumption", 
-						"Atmospheric Pollution", "Aquatic and Terrestrial Pollution", "Global Change"), 
-				List.of(7,7,13,13,13,13,9,9,17)
+				"AP Enviornmental Science", LocalDate.of(2025, 5, 13), "Moderate", arrays.apEnvstr, 
+				arrays.apEnvInt
 				));
 		examMap.put("ap physics c: mechanics", new APExamInfo(
-				"AP Physics C: Mechanics", LocalDate.of(2025, 5, 14), "Difficult", List.of("Kinematics", 
-						"Force and Translational Dynamics","Work, Energy, and Power", 
-						"Linear Momentum", "Torque and Rotational Dynamics","Energy and Momentum of Rotating Systems", 
-						"Oscillations"), 
-				List.of(13,23,20,15,13,13,13)
+				"AP Physics C: Mechanics", LocalDate.of(2025, 5, 14), "Difficult", arrays.apPhy3str, 
+				arrays.apPhy3Int
 				));
 		examMap.put("ap physics c: electricity and magnetism", new APExamInfo(
-				"AP Physics C: Electricity and Magnetism", LocalDate.of(2025, 5, 15), "Difficult", List.of("Electric Charges, Fields, and Gauss's Law", 
-						"Electric Potential","Conductors and Capacitors", 
-						"Electric Circuits", "Magnetic Fields and ELectromagnetism","Electromagnetic Induction" 
-						), 
-				List.of(17,15,13,20,15,15)
+				"AP Physics C: Electricity and Magnetism", LocalDate.of(2025, 5, 15), "Difficult", arrays.apPhy4str, 
+				arrays.apPhy4Int
 				));
 		examMap.put("ap physics 1", new APExamInfo(
-				"AP Physics 1: Algebra-Based", LocalDate.of(2025, 5, 16), "Difficult", List.of("Kinematics", 
-						"Force and Translational Dynamics","Work, Energy, and Power", 
-						"Linear Momentum", "Torque and Rotational Dynamics","Energy and Momentum of Rotating Systems", 
-						"Oscillations", "Fluids"),
-				List.of(13,21,21,13,13,7,7,13)
+				"AP Physics 1: Algebra-Based", LocalDate.of(2025, 5, 16), "Difficult",arrays.apPhy1str,
+				arrays.apPhy1Int
 				));
 		examMap.put("ap physics 2", new APExamInfo(
-				"AP Physics 2: Algebra-Based", LocalDate.of(2025, 5, 13), "Moderate", List.of("Thermodynamics", 
-						"Electric Force, Field, and Potential","Electric Circuits", 
-						"Magnetism and Electromagnetism", "Geometric Optics","Waves, Sound, and Physics Optics", 
-						"Modern Physics"),
-				List.of(17,17,17,14,14,14,14)
+				"AP Physics 2: Algebra-Based", LocalDate.of(2025, 5, 13), "Moderate", arrays.apPhy2str,
+				arrays.apPhy2Int
 				));
 		examMap.put("ap english literature and composition", new APExamInfo(
-				"AP English Literature and Composition", LocalDate.of(2025, 5, 7), "Moderate", List.of("Short Fiction 1", 
-						"Poetry 1","Longer Fiction or Drama 1", 
-						"Short Fiction 2", "Poetry 2","Longer Fiction or Drama 2", 
-						"Short Fiction 3", "Poetry 3", "Longer Fiction or Drama 3"), 
-				List.of(11,11,11,11,11,11,11,11,11)
+				"AP English Literature and Composition", LocalDate.of(2025, 5, 7), "Moderate", arrays.apEngLitstr, 
+				arrays.apEngLitInt
 				));
 		examMap.put("ap calculus ab", new APExamInfo(
-				"AP Calculus AB", LocalDate.of(2025, 5, 12), "Difficult", List.of("Limits and Continuity", 
-						"Differentiation: Definition and Fundamental Properties","Differentiation: Composite, Implicit, and Inverse Function", 
-						"Contextual Applications of Differentiation", "Analytical Applications of Differentiation","Integration adn Accumulation of Change", 
-						"Differential Equation", "Application of Integration"), 
-				List.of(11,11,11,13,17,19,9,13)
+				"AP Calculus AB", LocalDate.of(2025, 5, 12), "Difficult", arrays.apCalcABstr, 
+				arrays.apCalcABInt
 				));
 		examMap.put("ap calculus bc", new APExamInfo(
-				"AP Calculus BC", LocalDate.of(2025, 5, 12), "Difficult", List.of("Limits and Continuity", 
-						"Differentiation: Definition and Fundamental Properties","Differentiation: Composite, Implicit, and Inverse Function", 
-						"Contextual Applications of Differentiation", "Analytical Applications of Differentiation","Integration adn Accumulation of Change", 
-						"Differential Equation", "Application of Integration", "Parametric Equations, Polar Coordinates, and Vection-Valued Functions", "Infinite Sequences and Series"), 
-				List.of(6,6,6,8,10,19,8,8,12,18)
+				"AP Calculus BC", LocalDate.of(2025, 5, 12), "Difficult", arrays.apCalcBCstr, 
+				arrays.apCalcBCInt
 				));
 		examMap.put("ap statistics", new APExamInfo(
-				"AP Statistics", LocalDate.of(2025, 5, 8), "Moderate", List.of("Exploring One-Variable Data", "Exploring Two Variable Data", "Collecting Data", "Probability, Random Variables, and Probability Distributions", "Inference for Categorical Data: Proportions", "Inference for Quantitative Data: Means", "Inference for Categorical Data: Chi-Square", "Inference for Quantitative Data: Slopes"), 
-				List.of(23,7,12,10,8,12,18,5,5)
+				"AP Statistics", LocalDate.of(2025, 5, 8), "Moderate", arrays.apStatstr, 
+				arrays.apStatInt
 				));
-		examMap.put("ap literature", new APExamInfo(
-				"AP Literature", LocalDate.of(2025, 5, 7), "Moderate", List.of("Multiple Choice 55 Questions", "Free Response 3 Questions"), 
-				List.of(45,55)
-				));
+
 		examMap.put("ap language", new APExamInfo(
-				"AP English Language", LocalDate.of(2025, 5, 14), "Moderate", List.of("23–25 Reading questions & 20–22 Writing questions", "Synthesis & Rhetorical analysis & Argument"), 
-				List.of(45,55)
+				"AP English Language", LocalDate.of(2025, 5, 14), "Moderate", arrays.apLangstr, 
+				arrays.apLangInt
 				));
 
 }

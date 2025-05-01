@@ -1,3 +1,8 @@
+/*
+ * This class has different methods to pull information to of the HashMap
+*/
+
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -9,19 +14,22 @@ public class APExamInfo extends APExam {
 		this.topics = topic;
 		this.percentage = percentage;
 	}
-	
+	//Pulls the name out of the HashMap
 	public static String InfoforName(String nameOfClass) {
 		return "Name: " + APDatatbase.examMap.get(nameOfClass).getName();
 		
 	}
+	//Pulls the Date out of the HashMap
 	public static String  InfoforDate(String nameOfClass) {
 		return "Date: " + APDatatbase.examMap.get(nameOfClass).getDate();
 		
 	}
+	//Pulls the Difficulty out of the HashMap
 	public static String InfoforDifficulty(String nameOfClass) {
 		return "difficulty: " + APDatatbase.examMap.get(nameOfClass).getDifficulty();
 		
 		}
+	//Builds a string which is used in the screens class to show the user what topics are on the AP exam and how often they come up.
 	public static String InfoforTopics(String nameOfClass) {
 		StringBuilder infoAboutTopics = new StringBuilder();
 		String finalInfo;
@@ -33,6 +41,7 @@ public class APExamInfo extends APExam {
 		finalInfo = infoAboutTopics.toString();
 		return finalInfo;
 	}
+	//creates a way to make a study schedule for them based on the least difficult to most difficult
 	public static String CalendarMaking(String nameOfClass) {
 		List<String> modifiableTopics = new ArrayList<>(APDatatbase.examMap.get(nameOfClass).getTopics());
 		List<Integer> modifiablePercentages = new ArrayList<>(APDatatbase.examMap.get(nameOfClass).getPercentage());
@@ -54,16 +63,16 @@ public class APExamInfo extends APExam {
 		String finalcalendar;
 		long countdown = calendar.daysLeftnumber(nameOfClass);
 		 int unitCount = UnitsInOrder.size();
-		 for (int day = 0; day < Math.min(countdown, modifiableTopics.size()); day++) {
+		 for (int day = 0; day < countdown; day++) {
 			    String currentUnit;
 
 			    if (!UnitsInOrder.isEmpty()) {
 			        currentUnit = UnitsInOrder.poll();
-			        if (APDatatbase.examMap.get(nameOfClass).getPercentage().get(day) > 70) {
+			        if (APDatatbase.examMap.get(nameOfClass).getPercentage().get(day) > 20) {
 			            UnitsInOrder.add(currentUnit);
 			        }
 			    } else {
-			        currentUnit = "Free Review Day";
+			        currentUnit = "Any Unit";
 			    }
 
 			    makingTheCalendar.append("Day " + (day + 1) + ": Review " + currentUnit + "\n");
